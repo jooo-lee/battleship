@@ -1,0 +1,31 @@
+{
+    "name": "webpack-template",
+    "version": "1.0.0",
+    "description": "",
+    "main": "./src/js/index.js",
+    "private": true,
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "webpack serve --open-app-name \"Google Chrome\" --config webpack.dev.js",
+        "build": "webpack --config webpack.prod.js",
+        "deploy": "git subtree push --prefix dist origin gh-pages"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "MIT",
+    "devDependencies": {
+        "css-loader": "^6.8.1",
+        "css-minimizer-webpack-plugin": "^6.0.0",
+        "eslint": "^8.56.0",
+        "eslint-config-airbnb-base": "^15.0.0",
+        "eslint-config-prettier": "^9.1.0",
+        "eslint-plugin-import": "^2.29.1",
+        "html-webpack-plugin": "^5.6.0",
+        "mini-css-extract-plugin": "^2.7.6",
+        "prettier": "3.2.5",
+        "webpack": "^5.89.0",
+        "webpack-cli": "^5.1.4",
+        "webpack-dev-server": "^5.0.4",
+        "webpack-merge": "^5.10.0"
+    }
+}
