@@ -1,7 +1,7 @@
 import { describe, expect, test } from '@jest/globals';
 import Ship from '../src/js/ship';
 
-describe('ship properties and methods', () => {
+describe('ship class', () => {
     test('has correct length', () => {
         expect(new Ship(4)).toHaveProperty('length', 4);
         expect(new Ship(2)).toHaveProperty('length', 2);
@@ -17,5 +17,14 @@ describe('ship properties and methods', () => {
         ship.hit();
         ship.hit();
         expect(ship).toHaveProperty('hits', 3);
+    });
+
+    test('is sunk if hits greater than length', () => {
+        const ship = new Ship(2);
+        expect(ship.isSunk()).toBe(false);
+        ship.hit();
+        expect(ship.isSunk()).toBe(false);
+        ship.hit();
+        expect(ship.isSunk()).toBe(true);
     });
 });

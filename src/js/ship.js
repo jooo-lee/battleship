@@ -8,6 +8,11 @@ class Ship {
     hit() {
         this.hits++;
     }
+
+    // Calculate whether or not ship is sunk based on its length and hits received
+    isSunk() {
+        return this.hits >= this.length;
+    }
 }
 
 export default Ship;
