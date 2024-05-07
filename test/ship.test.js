@@ -12,11 +12,15 @@ describe('ship class', () => {
         expect(ship).toHaveProperty('hits', 0);
 
         ship.hit();
-        expect(ship).toHaveProperty('hits', 1);
-
         ship.hit();
         ship.hit();
         expect(ship).toHaveProperty('hits', 3);
+
+        ship.hit();
+        expect(ship).toHaveProperty('hits', 4);
+
+        ship.hit();
+        expect(ship).toHaveProperty('hits', 4);
     });
 
     test('is sunk if hits greater than length', () => {

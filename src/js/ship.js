@@ -4,9 +4,9 @@ class Ship {
         this.hits = 0;
     }
 
-    // Increase number of 'hits' on ship
+    // Increase number of 'hits' on ship, cap at length
     hit() {
-        this.hits++;
+        if (this.hits < this.length) this.hits++;
     }
 
     // Calculate whether or not ship is sunk based on its length and hits received
