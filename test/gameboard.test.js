@@ -24,4 +24,26 @@ describe('gameboard class', () => {
             }
         }
     });
+
+    test('places ship vertically', () => {
+        const gameboard = new Gameboard();
+        const row1 = 4;
+        const col1 = 5;
+        const row2 = 8;
+        const col2 = 5;
+        gameboard.placeShip([row1, col1], [row2, col2]);
+        const board = gameboard.getBoard();
+
+        // Assert that ship is only placed at its respective coordinates
+        expect(board[row1][col1]).toBeInstanceOf(Ship);
+        for (let i = 0; i < board.length; i++) {
+            for (let j = 0; j < board[0].length; j++) {
+                if (j === col1 && row1 <= i && i <= row2) {
+                    expect(board[row1][col1]).toBe(board[i][j]);
+                } else {
+                    expect(board[row1][col1]).not.toBe(board[i][j]);
+                }
+            }
+        }
+    });
 });

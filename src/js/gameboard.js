@@ -23,6 +23,13 @@ class Gameboard {
             for (let j = col1; j <= col2; j++) {
                 this.board[row1][j] = ship;
             }
+        } else if (col1 === col2) {
+            // Place ship vertically
+            const shipLength = Math.abs(row2 - row1);
+            const ship = new Ship(shipLength);
+            for (let i = row1; i <= row2; i++) {
+                this.board[i][col1] = ship;
+            }
         }
     }
 }
