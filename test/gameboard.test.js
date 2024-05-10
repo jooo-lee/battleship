@@ -1,10 +1,14 @@
-import { describe, expect, test } from '@jest/globals';
+import { describe, expect, test, beforeEach } from '@jest/globals';
 import Gameboard from '../src/js/gameboard';
 import Ship from '../src/js/ship';
 
 describe('gameboard class', () => {
+    let gameboard;
+    beforeEach(() => {
+        gameboard = new Gameboard();
+    });
+
     test('places ship horizontally', () => {
-        const gameboard = new Gameboard();
         const row1 = 2;
         const col1 = 3;
         const row2 = 2;
@@ -26,7 +30,6 @@ describe('gameboard class', () => {
     });
 
     test('places ship vertically', () => {
-        const gameboard = new Gameboard();
         const row1 = 4;
         const col1 = 5;
         const row2 = 8;
@@ -45,5 +48,21 @@ describe('gameboard class', () => {
                 }
             }
         }
+    });
+
+    test('throws if ship not placed horizontally or vertically', () => {
+        const oldBoard = gameboard.getBoard();
+        const row1 = 4;
+        const col1 = 4;
+        const row2 = 6;
+        const col2 = 6;
+
+        expect(() => {
+            gameboard.placeShip([row1, col1], [row2, col2]);
+        }).toThrow();
+
+        // Assert that new ship is not placed and board is not changed
+        const newBoard = gameboard.getBoard();
+        expect(oldBoard).toEqual(newBoard);
     });
 });

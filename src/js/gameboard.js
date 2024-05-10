@@ -16,20 +16,22 @@ class Gameboard {
     placeShip(start, end) {
         const [row1, col1] = start;
         const [row2, col2] = end;
-        if (row1 === row2) {
+        if (row1 === row2 && col1 < col2) {
             // Place ship horizontally
             const shipLength = Math.abs(col2 - col1);
             const ship = new Ship(shipLength);
             for (let j = col1; j <= col2; j++) {
                 this.board[row1][j] = ship;
             }
-        } else if (col1 === col2) {
+        } else if (col1 === col2 && row1 < row2) {
             // Place ship vertically
             const shipLength = Math.abs(row2 - row1);
             const ship = new Ship(shipLength);
             for (let i = row1; i <= row2; i++) {
                 this.board[i][col1] = ship;
             }
+        } else {
+            throw new Error('Ships must be placed horizontally or vertically!');
         }
     }
 }
