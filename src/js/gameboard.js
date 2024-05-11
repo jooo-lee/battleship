@@ -9,19 +9,23 @@ class Gameboard {
         return this.board;
     }
 
-    /**
-     * For horizontal ships, assume that col1 < col2
-     * For vertical ships, assume that row1 < row2
-     */
     placeShip(start, end) {
         const [row1, col1] = start;
         const [row2, col2] = end;
-        if (row1 === row2 && col1 < col2) {
-            // Place ship horizontally
+        if (row1 === row2) {
             const shipLength = Math.abs(col2 - col1);
-            const ship = new Ship(shipLength);
-            for (let j = col1; j <= col2; j++) {
-                this.board[row1][j] = ship;
+            if (col1 < col2) {
+                // Places ship horizontally left to right
+                const ship = new Ship(shipLength);
+                for (let j = col1; j <= col2; j++) {
+                    this.board[row1][j] = ship;
+                }
+            } else if (col2 < col1) {
+                // Places ship horizontally right to left
+                const ship = new Ship(shipLength);
+                for (let j = col2; j <= col1; j++) {
+                    this.board[row1][j] = ship;
+                }
             }
         } else if (col1 === col2 && row1 < row2) {
             // Place ship vertically

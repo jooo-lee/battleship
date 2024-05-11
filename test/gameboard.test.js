@@ -8,7 +8,7 @@ describe('gameboard class', () => {
         gameboard = new Gameboard();
     });
 
-    test('places ship horizontally', () => {
+    test('places ship horizontally left to right', () => {
         const row1 = 2;
         const col1 = 3;
         const row2 = 2;
@@ -21,6 +21,27 @@ describe('gameboard class', () => {
         for (let i = 0; i < board.length; i++) {
             for (let j = 0; j < board[0].length; j++) {
                 if (i === row1 && col1 <= j && j <= col2) {
+                    expect(board[row1][col1]).toBe(board[i][j]);
+                } else {
+                    expect(board[row1][col1]).not.toBe(board[i][j]);
+                }
+            }
+        }
+    });
+
+    test('places ship horizontally right to left', () => {
+        const row1 = 8;
+        const col1 = 9;
+        const row2 = 8;
+        const col2 = 7;
+        gameboard.placeShip([row1, col1], [row2, col2]);
+        const board = gameboard.getBoard();
+
+        // Assert that ship is only placed at its respective coordinates
+        expect(board[row1][col1]).toBeInstanceOf(Ship);
+        for (let i = 0; i < board.length; i++) {
+            for (let j = 0; j < board[0].length; j++) {
+                if (i === row1 && col2 <= j && j <= col1) {
                     expect(board[row1][col1]).toBe(board[i][j]);
                 } else {
                     expect(board[row1][col1]).not.toBe(board[i][j]);
