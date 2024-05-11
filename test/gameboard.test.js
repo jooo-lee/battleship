@@ -129,5 +129,16 @@ describe('gameboard class', () => {
         }).toThrow();
     });
 
-    test.todo('throws if ship placed on occupied coordinates');
+    test('throws if ship placed on occupied coordinates', () => {
+        gameboard.placeShip([1, 1], [1, 4]);
+        expect(() => {
+            gameboard.placeShip([0, 1], [2, 1]);
+        }).toThrow();
+
+        // Check to make sure new ship is not placed
+        const board = gameboard.getBoard();
+        expect(board[0][1]).toBeNull();
+        expect(board[1][1]).toBe(board[1][2]);
+        expect(board[2][1]).toBeNull();
+    });
 });
