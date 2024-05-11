@@ -107,4 +107,13 @@ describe('gameboard class', () => {
         const newBoard = gameboard.getBoard();
         expect(oldBoard).toEqual(newBoard);
     });
+
+    test('throws if ship start and end coordinates are same', () => {
+        expect(() => {
+            gameboard.placeShip([1, 1], [1, 1]);
+        }).toThrow();
+    });
+
+    test.todo('throws if ship coordinates off board');
+    test.todo('throws if ship placed on occupied coordinates');
 });
