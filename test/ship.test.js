@@ -7,6 +7,33 @@ describe('ship class', () => {
         expect(new Ship(2)).toHaveProperty('length', 2);
     });
 
+    test('throws if length not between 2 and 5', () => {
+        expect(() => {
+            new Ship(0);
+        }).toThrow();
+        expect(() => {
+            new Ship(1);
+        }).toThrow();
+        expect(() => {
+            new Ship(2);
+        }).not.toThrow();
+        expect(() => {
+            new Ship(3);
+        }).not.toThrow();
+        expect(() => {
+            new Ship(4);
+        }).not.toThrow();
+        expect(() => {
+            new Ship(5);
+        }).not.toThrow();
+        expect(() => {
+            new Ship(6);
+        }).toThrow();
+        expect(() => {
+            new Ship(7);
+        }).toThrow();
+    });
+
     test('keeps track of number of times hit', () => {
         const ship = new Ship(4);
         expect(ship).toHaveProperty('hits', 0);
