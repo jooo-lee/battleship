@@ -27,12 +27,20 @@ class Gameboard {
                     this.board[row1][j] = ship;
                 }
             }
-        } else if (col1 === col2 && row1 < row2) {
-            // Place ship vertically
+        } else if (col1 === col2) {
             const shipLength = Math.abs(row2 - row1);
-            const ship = new Ship(shipLength);
-            for (let i = row1; i <= row2; i++) {
-                this.board[i][col1] = ship;
+            if (row1 < row2) {
+                // Places ship vertically top to bottom
+                const ship = new Ship(shipLength);
+                for (let i = row1; i <= row2; i++) {
+                    this.board[i][col1] = ship;
+                }
+            } else if (row2 < row1) {
+                // Places ship vertically bottom to top
+                const ship = new Ship(shipLength);
+                for (let i = row2; i <= row1; i++) {
+                    this.board[i][col1] = ship;
+                }
             }
         } else {
             throw new Error('Ships must be placed horizontally or vertically!');
