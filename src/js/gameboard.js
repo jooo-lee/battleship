@@ -12,6 +12,20 @@ class Gameboard {
     placeShip(start, end) {
         const [row1, col1] = start;
         const [row2, col2] = end;
+
+        if (
+            row1 < 0 ||
+            row1 > 9 ||
+            col1 < 0 ||
+            col1 > 9 ||
+            row2 < 0 ||
+            row2 > 9 ||
+            col2 < 0 ||
+            col2 > 9
+        ) {
+            throw new Error('Ship coordinates out of bounds!');
+        }
+
         if (row1 === row2) {
             const shipLength = Math.abs(col2 - col1);
             if (col1 < col2) {

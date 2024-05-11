@@ -114,6 +114,20 @@ describe('gameboard class', () => {
         }).toThrow();
     });
 
-    test.todo('throws if ship coordinates off board');
+    test('throws if ship coordinates off board', () => {
+        expect(() => {
+            gameboard.placeShip([-1, 1], [2, 1]);
+        }).toThrow();
+        expect(() => {
+            gameboard.placeShip([0, -3], [0, 1]);
+        }).toThrow();
+        expect(() => {
+            gameboard.placeShip([9, 9], [11, 9]);
+        }).toThrow();
+        expect(() => {
+            gameboard.placeShip([2, 8], [2, 10]);
+        }).toThrow();
+    });
+
     test.todo('throws if ship placed on occupied coordinates');
 });
