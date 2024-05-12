@@ -10,23 +10,23 @@ class Gameboard {
         return this.board;
     }
 
-    // Check if coordinate is within bounds of our board
-    #checkOnBoard(coordinate) {
-        const [row, col] = coordinate;
+    // Check if coordinates are within bounds of our board
+    #checkOnBoard(coordinates) {
+        const [row, col] = coordinates;
         if (
             row < 0 ||
             row > this.board.length - 1 ||
             col < 0 ||
             col > this.board.length - 1
         ) {
-            throw new Error('Coordinate out of bounds!');
+            throw new Error('Coordinates out of bounds!');
         }
     }
 
     // Helper method for placeShip
-    #placeShipHorizontally(startCoordinate, endCoordinate) {
-        let [row, col1] = startCoordinate;
-        let col2 = endCoordinate[1];
+    #placeShipHorizontally(startCoordinates, endCoordinates) {
+        let [row, col1] = startCoordinates;
+        let col2 = endCoordinates[1];
         /**
          * Ensure col1 <= col2 since we are incrementing from col1 to col2 in
          * the for loop below to place the ship.
@@ -48,9 +48,9 @@ class Gameboard {
     }
 
     // Helper method for placeShip
-    #placeShipVertically(startCoordinate, endCoordinate) {
-        let [row1, col] = startCoordinate;
-        let row2 = endCoordinate[0];
+    #placeShipVertically(startCoordinates, endCoordinates) {
+        let [row1, col] = startCoordinates;
+        let row2 = endCoordinates[0];
         /**
          * Ensure row1 <= row2 since we are incrementing from row1 to row2 in
          * the for loop below to place the ship.
@@ -71,13 +71,13 @@ class Gameboard {
         }
     }
 
-    placeShip(startCoordinate, endCoordinate) {
-        this.#checkOnBoard(startCoordinate);
-        this.#checkOnBoard(endCoordinate);
-        if (startCoordinate[0] === endCoordinate[0]) {
-            this.#placeShipHorizontally(startCoordinate, endCoordinate);
-        } else if (startCoordinate[1] === endCoordinate[1]) {
-            this.#placeShipVertically(startCoordinate, endCoordinate);
+    placeShip(startCoordinates, endCoordinates) {
+        this.#checkOnBoard(startCoordinates);
+        this.#checkOnBoard(endCoordinates);
+        if (startCoordinates[0] === endCoordinates[0]) {
+            this.#placeShipHorizontally(startCoordinates, endCoordinates);
+        } else if (startCoordinates[1] === endCoordinates[1]) {
+            this.#placeShipVertically(startCoordinates, endCoordinates);
         } else {
             throw new Error('Ships must be placed horizontally or vertically!');
         }
