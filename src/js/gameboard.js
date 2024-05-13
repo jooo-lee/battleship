@@ -4,7 +4,9 @@ class Gameboard {
     constructor() {
         // 10x10 grid
         this.board = [...Array(10)].map(() => Array(10).fill(null));
+        this.ships = [];
         this.misses = new Set();
+        this.allShipsSunk = false;
     }
 
     getBoard() {
@@ -33,6 +35,7 @@ class Gameboard {
             [col1, col2] = [col2, col1];
         }
         const ship = new Ship(col2 - col1 + 1);
+        this.ships.push(ship);
         for (let j = col1; j <= col2; j++) {
             // Undo new ship placement if we reach occupied coordinates
             if (this.board[row][j]) {
@@ -58,6 +61,7 @@ class Gameboard {
             [row1, row2] = [row2, row1];
         }
         const ship = new Ship(row2 - row1 + 1);
+        this.ships.push(ship);
         for (let i = row1; i <= row2; i++) {
             // Undo new ship placement if we reach occupied coordinates
             if (this.board[i][col]) {
@@ -96,6 +100,9 @@ class Gameboard {
         if (this.board[row][col]) {
             const ship = this.board[row][col];
             ship.hit();
+
+            // Update whether or not all ships have been sunk
+            this.allShipsSunk = this.ships.every((ship) => ship.isSunk());
         } else {
             this.misses.add(coordinates);
         }

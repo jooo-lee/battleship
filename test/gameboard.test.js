@@ -162,4 +162,18 @@ describe('gameboard class', () => {
         expect(misses).toEqual(expectedMisses);
         expect(misses.length).toBe(expectedMisses.length);
     });
+
+    test('reports whether or not all of its ships have been sunk', () => {
+        gameboard.placeShip([1, 1], [1, 2]);
+        gameboard.placeShip([3, 3], [3, 4]);
+        expect(gameboard.allShipsSunk).toBe(false);
+
+        gameboard.receiveAttack([1, 1]);
+        gameboard.receiveAttack([1, 2]);
+        expect(gameboard.allShipsSunk).toBe(false);
+
+        gameboard.receiveAttack([3, 3]);
+        gameboard.receiveAttack([3, 4]);
+        expect(gameboard.allShipsSunk).toBe(true);
+    });
 });
