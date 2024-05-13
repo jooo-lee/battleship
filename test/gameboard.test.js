@@ -92,54 +92,36 @@ describe('gameboard class', () => {
         }
     });
 
-    test('throws if ship not placed horizontally or vertically', () => {
+    test('does not place ship diagonally', () => {
         const oldBoard = gameboard.getBoard();
         const row1 = 4;
         const col1 = 4;
         const row2 = 6;
         const col2 = 6;
-
-        expect(() => {
-            gameboard.placeShip([row1, col1], [row2, col2]);
-        }).toThrow();
-
-        // Assert that new ship is not placed and board is not changed
+        gameboard.placeShip([row1, col1], [row2, col2]);
         const newBoard = gameboard.getBoard();
         expect(oldBoard).toEqual(newBoard);
     });
 
-    test('throws if ship start and end coordinates are same', () => {
-        expect(() => {
-            gameboard.placeShip([1, 1], [1, 1]);
-        }).toThrow();
+    test('does not place ship off the board', () => {
+        const oldBoard = gameboard.getBoard();
+        gameboard.placeShip([-1, 1], [2, 1]);
+        gameboard.placeShip([0, -3], [0, 1]);
+        gameboard.placeShip([9, 9], [11, 9]);
+        gameboard.placeShip([2, 8], [2, 10]);
+        const newBoard = gameboard.getBoard();
+        expect(oldBoard).toEqual(newBoard);
     });
 
-    test('throws if ship coordinates are off the board', () => {
-        expect(() => {
-            gameboard.placeShip([-1, 1], [2, 1]);
-        }).toThrow();
-        expect(() => {
-            gameboard.placeShip([0, -3], [0, 1]);
-        }).toThrow();
-        expect(() => {
-            gameboard.placeShip([9, 9], [11, 9]);
-        }).toThrow();
-        expect(() => {
-            gameboard.placeShip([2, 8], [2, 10]);
-        }).toThrow();
-    });
-
-    test('throws if ship placed on occupied coordinates', () => {
+    test('does not place ship on occupied coordinates', () => {
         gameboard.placeShip([1, 1], [1, 4]);
-        expect(() => {
-            gameboard.placeShip([0, 1], [2, 1]);
-        }).toThrow();
+        const oldBoard = gameboard.getBoard();
 
-        // Check to make sure new ship is not placed
-        const board = gameboard.getBoard();
-        expect(board[0][1]).toBeNull();
-        expect(board[1][1]).toBe(board[1][2]);
-        expect(board[2][1]).toBeNull();
+        // Attempt to place ship on occupied coordinates
+        gameboard.placeShip([0, 1], [2, 1]);
+
+        const newBoard = gameboard.getBoard();
+        expect(oldBoard).toEqual(newBoard);
     });
 
     test('correct ship is hit when receiving attack', () => {

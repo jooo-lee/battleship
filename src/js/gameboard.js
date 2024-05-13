@@ -11,20 +11,17 @@ class Gameboard {
         return this.board;
     }
 
-    // Check if coordinates are within bounds of our board
-    #checkOnBoard(coordinates) {
+    #isOnBoard(coordinates) {
         const [row, col] = coordinates;
-        if (
-            row < 0 ||
-            row > this.board.length - 1 ||
-            col < 0 ||
-            col > this.board.length - 1
-        ) {
-            throw new Error('Coordinates out of bounds!');
-        }
+        return (
+            row >= 0 &&
+            row < this.board.length &&
+            col >= 0 &&
+            col < this.board.length
+        );
     }
 
-    // Helper method for placeShip
+    // Helper method for placeShip, returns whether or not ship placement was successful
     #placeShipHorizontally(startCoordinates, endCoordinates) {
         let [row, col1] = startCoordinates;
         let col2 = endCoordinates[1];
@@ -42,13 +39,14 @@ class Gameboard {
                 for (j = j - 1; j >= col1; j--) {
                     this.board[row][j] = null;
                 }
-                throw new Error('Cannot stack ships!');
+                return false;
             }
             this.board[row][j] = ship;
         }
+        return true;
     }
 
-    // Helper method for placeShip
+    // Helper method for placeShip, returns whether or not ship placement was successful
     #placeShipVertically(startCoordinates, endCoordinates) {
         let [row1, col] = startCoordinates;
         let row2 = endCoordinates[0];
@@ -66,22 +64,31 @@ class Gameboard {
                 for (i = i - 1; i >= row1; i--) {
                     this.board[i][col] = null;
                 }
-                throw new Error('Cannot stack ships!');
+                return false;
             }
             this.board[i][col] = ship;
         }
+        return true;
     }
 
+    // Returns whether or not ship placement was successful
     placeShip(startCoordinates, endCoordinates) {
-        this.#checkOnBoard(startCoordinates);
-        this.#checkOnBoard(endCoordinates);
-        if (startCoordinates[0] === endCoordinates[0]) {
-            this.#placeShipHorizontally(startCoordinates, endCoordinates);
-        } else if (startCoordinates[1] === endCoordinates[1]) {
-            this.#placeShipVertically(startCoordinates, endCoordinates);
-        } else {
-            throw new Error('Ships must be placed horizontally or vertically!');
+        if (
+            !this.#isOnBoard(startCoordinates) ||
+            !this.#isOnBoard(endCoordinates)
+        ) {
+            return false;
         }
+
+        if (startCoordinates[0] === endCoordinates[0]) {
+            return this.#placeShipHorizontally(
+                startCoordinates,
+                endCoordinates
+            );
+        } else if (startCoordinates[1] === endCoordinates[1]) {
+            return this.#placeShipVertically(startCoordinates, endCoordinates);
+        }
+        return false;
     }
 
     receiveAttack(coordinates) {
