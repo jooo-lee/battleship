@@ -114,7 +114,7 @@ describe('gameboard class', () => {
         }).toThrow();
     });
 
-    test('throws if ship coordinates off board', () => {
+    test('throws if ship coordinates are off the board', () => {
         expect(() => {
             gameboard.placeShip([-1, 1], [2, 1]);
         }).toThrow();
@@ -140,5 +140,20 @@ describe('gameboard class', () => {
         expect(board[0][1]).toBeNull();
         expect(board[1][1]).toBe(board[1][2]);
         expect(board[2][1]).toBeNull();
+    });
+
+    test('correct ship is hit when receiving attack', () => {
+        gameboard.placeShip([2, 3], [2, 5]);
+        gameboard.placeShip([0, 1], [2, 1]);
+        const board = gameboard.getBoard();
+
+        const shipToBeHit = board[2][3];
+        expect(shipToBeHit.hits).toBe(0);
+        gameboard.receiveAttack([2, 3]);
+        gameboard.receiveAttack([2, 4]);
+        expect(shipToBeHit.hits).toBe(2);
+
+        const shipToNotBeHit = board[0][1];
+        expect(shipToNotBeHit.hits).toBe(0);
     });
 });

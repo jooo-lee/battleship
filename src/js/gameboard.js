@@ -82,6 +82,14 @@ class Gameboard {
             throw new Error('Ships must be placed horizontally or vertically!');
         }
     }
+
+    receiveAttack(coordinates) {
+        const [row, col] = coordinates;
+        if (this.board[row][col]) {
+            const ship = this.board[row][col];
+            ship.hit();
+        }
+    }
 }
 
 export default Gameboard;
