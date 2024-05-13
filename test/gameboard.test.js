@@ -156,4 +156,18 @@ describe('gameboard class', () => {
         const shipToNotBeHit = board[0][1];
         expect(shipToNotBeHit.hits).toBe(0);
     });
+
+    test('records coordinates of missed shot when receiving attack', () => {
+        const expectedMisses = [
+            [1, 7],
+            [9, 4],
+            [4, 3],
+        ];
+        expectedMisses.forEach((shot) => gameboard.receiveAttack(shot));
+
+        // Ensure we are comparing arrays
+        const misses = [...gameboard.misses];
+        expect(misses).toEqual(expectedMisses);
+        expect(misses.length).toBe(expectedMisses.length);
+    });
 });

@@ -4,6 +4,7 @@ class Gameboard {
     constructor() {
         // 10x10 grid
         this.board = [...Array(10)].map(() => Array(10).fill(null));
+        this.misses = new Set();
     }
 
     getBoard() {
@@ -88,6 +89,8 @@ class Gameboard {
         if (this.board[row][col]) {
             const ship = this.board[row][col];
             ship.hit();
+        } else {
+            this.misses.add(coordinates);
         }
     }
 }
