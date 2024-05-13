@@ -1,25 +1,28 @@
 import Ship from './ship';
 
 class Gameboard {
+    #board;
+    #ships;
+
     constructor() {
         // 10x10 grid
-        this.board = [...Array(10)].map(() => Array(10).fill(null));
-        this.ships = [];
+        this.#board = [...Array(10)].map(() => Array(10).fill(null));
+        this.#ships = [];
         this.misses = new Set();
         this.allShipsSunk = false;
     }
 
     getBoard() {
-        return this.board;
+        return this.#board;
     }
 
     #isOnBoard(coordinates) {
         const [row, col] = coordinates;
         return (
             row >= 0 &&
-            row < this.board.length &&
+            row < this.#board.length &&
             col >= 0 &&
-            col < this.board.length
+            col < this.#board.length
         );
     }
 
@@ -35,16 +38,16 @@ class Gameboard {
             [col1, col2] = [col2, col1];
         }
         const ship = new Ship(col2 - col1 + 1);
-        this.ships.push(ship);
+        this.#ships.push(ship);
         for (let j = col1; j <= col2; j++) {
             // Undo new ship placement if we reach occupied coordinates
-            if (this.board[row][j]) {
+            if (this.#board[row][j]) {
                 for (j = j - 1; j >= col1; j--) {
-                    this.board[row][j] = null;
+                    this.#board[row][j] = null;
                 }
                 return false;
             }
-            this.board[row][j] = ship;
+            this.#board[row][j] = ship;
         }
         return true;
     }
@@ -61,16 +64,16 @@ class Gameboard {
             [row1, row2] = [row2, row1];
         }
         const ship = new Ship(row2 - row1 + 1);
-        this.ships.push(ship);
+        this.#ships.push(ship);
         for (let i = row1; i <= row2; i++) {
             // Undo new ship placement if we reach occupied coordinates
-            if (this.board[i][col]) {
+            if (this.#board[i][col]) {
                 for (i = i - 1; i >= row1; i--) {
-                    this.board[i][col] = null;
+                    this.#board[i][col] = null;
                 }
                 return false;
             }
-            this.board[i][col] = ship;
+            this.#board[i][col] = ship;
         }
         return true;
     }
@@ -97,12 +100,12 @@ class Gameboard {
 
     receiveAttack(coordinates) {
         const [row, col] = coordinates;
-        if (this.board[row][col]) {
-            const ship = this.board[row][col];
+        if (this.#board[row][col]) {
+            const ship = this.#board[row][col];
             ship.hit();
 
             // Update whether or not all ships have been sunk
-            this.allShipsSunk = this.ships.every((ship) => ship.isSunk());
+            this.allShipsSunk = this.#ships.every((ship) => ship.isSunk());
         } else {
             this.misses.add(coordinates);
         }
