@@ -8,6 +8,16 @@ describe('gameboard class', () => {
         gameboard = new Gameboard();
     });
 
+    test('placeShip creates ship of correct length', () => {
+        gameboard.placeShip([1, 1], [1, 4]);
+        gameboard.placeShip([6, 3], [4, 3]);
+        gameboard.placeShip([0, 0], [0, 1]);
+        const board = gameboard.getBoard();
+        expect(board[1][1].length).toBe(4);
+        expect(board[6][3].length).toBe(3);
+        expect(board[0][0].length).toBe(2);
+    });
+
     test('places ship horizontally left to right', () => {
         const row1 = 2;
         const col1 = 3;

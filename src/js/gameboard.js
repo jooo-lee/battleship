@@ -32,7 +32,7 @@ class Gameboard {
         if (col1 > col2) {
             [col1, col2] = [col2, col1];
         }
-        const ship = new Ship(col2 - col1);
+        const ship = new Ship(col2 - col1 + 1);
         for (let j = col1; j <= col2; j++) {
             // Undo new ship placement if we reach occupied coordinates
             if (this.board[row][j]) {
@@ -57,7 +57,7 @@ class Gameboard {
         if (row1 > row2) {
             [row1, row2] = [row2, row1];
         }
-        const ship = new Ship(row2 - row1);
+        const ship = new Ship(row2 - row1 + 1);
         for (let i = row1; i <= row2; i++) {
             // Undo new ship placement if we reach occupied coordinates
             if (this.board[i][col]) {
