@@ -113,8 +113,9 @@ class Gameboard {
             );
         } else if (startCoordinates[1] === endCoordinates[1]) {
             return this.#placeShipVertically(startCoordinates, endCoordinates);
+        } else {
+            throw new Error('Ship cannot be placed diagonally!');
         }
-        return false;
     }
 
     /**

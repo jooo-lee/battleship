@@ -102,15 +102,10 @@ describe('gameboard class', () => {
         }
     });
 
-    test('does not place ship diagonally', () => {
-        const oldBoard = gameboard.getBoard();
-        const row1 = 4;
-        const col1 = 4;
-        const row2 = 6;
-        const col2 = 6;
-        gameboard.placeShip([row1, col1], [row2, col2]);
-        const newBoard = gameboard.getBoard();
-        expect(oldBoard).toEqual(newBoard);
+    test('throws if ship placed diagonally', () => {
+        expect(() => {
+            gameboard.placeShip([4, 4], [6, 6]);
+        }).toThrow();
     });
 
     test('does not place ship off the board', () => {
