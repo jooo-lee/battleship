@@ -5,6 +5,7 @@ class Gameboard {
     #ships;
     #hits;
     #misses;
+    #allShipsSunk;
 
     constructor() {
         // 10x10 grid
@@ -13,16 +14,20 @@ class Gameboard {
         this.#ships = [];
         this.#hits = new Set();
         this.#misses = new Set();
-        this.allShipsSunk = false;
+        this.#allShipsSunk = false;
     }
 
-    getBoard() {
+    get board() {
         return this.#board;
     }
 
     // Returns array of received missed attack coordinates
-    getMisses() {
+    get misses() {
         return [...this.#misses].map((miss) => JSON.parse(miss));
+    }
+
+    get allShipsSunk() {
+        return this.#allShipsSunk;
     }
 
     #isOnBoard(coordinates) {
@@ -177,7 +182,7 @@ class Gameboard {
             this.#hits.add(JSON.stringify(coordinates));
 
             // Update whether or not all ships have been sunk
-            this.allShipsSunk = this.#ships.every((ship) => ship.isSunk());
+            this.#allShipsSunk = this.#ships.every((ship) => ship.isSunk());
         } else {
             // Ship not present at coordinates
             this.#misses.add(JSON.stringify(coordinates));

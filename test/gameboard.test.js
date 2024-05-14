@@ -12,7 +12,7 @@ describe('gameboard class', () => {
         gameboard.placeShip([1, 1], [1, 4]);
         gameboard.placeShip([6, 3], [4, 3]);
         gameboard.placeShip([0, 0], [0, 1]);
-        const board = gameboard.getBoard();
+        const board = gameboard.board;
         expect(board[1][1].length).toBe(4);
         expect(board[6][3].length).toBe(3);
         expect(board[0][0].length).toBe(2);
@@ -24,7 +24,7 @@ describe('gameboard class', () => {
         const row2 = 2;
         const col2 = 5;
         gameboard.placeShip([row1, col1], [row2, col2]);
-        const board = gameboard.getBoard();
+        const board = gameboard.board;
 
         // Assert that ship is only placed at its respective coordinates
         expect(board[row1][col1]).toBeInstanceOf(Ship);
@@ -45,7 +45,7 @@ describe('gameboard class', () => {
         const row2 = 8;
         const col2 = 7;
         gameboard.placeShip([row1, col1], [row2, col2]);
-        const board = gameboard.getBoard();
+        const board = gameboard.board;
 
         // Assert that ship is only placed at its respective coordinates
         expect(board[row1][col1]).toBeInstanceOf(Ship);
@@ -66,7 +66,7 @@ describe('gameboard class', () => {
         const row2 = 8;
         const col2 = 5;
         gameboard.placeShip([row1, col1], [row2, col2]);
-        const board = gameboard.getBoard();
+        const board = gameboard.board;
 
         // Assert that ship is only placed at its respective coordinates
         expect(board[row1][col1]).toBeInstanceOf(Ship);
@@ -87,7 +87,7 @@ describe('gameboard class', () => {
         const row2 = 1;
         const col2 = 9;
         gameboard.placeShip([row1, col1], [row2, col2]);
-        const board = gameboard.getBoard();
+        const board = gameboard.board;
 
         // Assert that ship is only placed at its respective coordinates
         expect(board[row1][col1]).toBeInstanceOf(Ship);
@@ -109,30 +109,30 @@ describe('gameboard class', () => {
     });
 
     test('does not place ship off the board', () => {
-        const oldBoard = gameboard.getBoard();
+        const oldBoard = gameboard.board;
         gameboard.placeShip([-1, 1], [2, 1]);
         gameboard.placeShip([0, -3], [0, 1]);
         gameboard.placeShip([9, 9], [11, 9]);
         gameboard.placeShip([2, 8], [2, 10]);
-        const newBoard = gameboard.getBoard();
+        const newBoard = gameboard.board;
         expect(oldBoard).toEqual(newBoard);
     });
 
     test('does not place ship on occupied coordinates', () => {
         gameboard.placeShip([1, 1], [1, 4]);
-        const oldBoard = gameboard.getBoard();
+        const oldBoard = gameboard.board;
 
         // Attempt to place ship on occupied coordinates
         gameboard.placeShip([0, 1], [2, 1]);
 
-        const newBoard = gameboard.getBoard();
+        const newBoard = gameboard.board;
         expect(oldBoard).toEqual(newBoard);
     });
 
     test('correct ship is hit when receiving attack', () => {
         gameboard.placeShip([2, 3], [2, 5]);
         gameboard.placeShip([0, 1], [2, 1]);
-        const board = gameboard.getBoard();
+        const board = gameboard.board;
 
         const shipToBeHit = board[2][3];
         expect(shipToBeHit.hits).toBe(0);
@@ -151,7 +151,7 @@ describe('gameboard class', () => {
             [4, 3],
         ];
         expectedMisses.forEach((shot) => gameboard.receiveAttack(shot));
-        expect(gameboard.getMisses()).toEqual(expectedMisses);
+        expect(gameboard.misses).toEqual(expectedMisses);
     });
 
     test('reports whether or not all of its ships have been sunk', () => {
@@ -181,7 +181,7 @@ describe('gameboard class', () => {
         gameboard.placeShip([1, 1], [1, 2]);
         gameboard.receiveAttack([1, 1]);
         gameboard.receiveAttack([1, 1]);
-        const board = gameboard.getBoard();
+        const board = gameboard.board;
         const ship = board[1][1];
         expect(ship.hits).toBe(1);
     });
