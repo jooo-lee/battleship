@@ -35,10 +35,14 @@ class Gameboard {
         );
     }
 
-    // Helper method for placeShip, returns whether or not ship placement was successful
+    /**
+     * Helper method for placeShip, attempts to place ship horizontally and
+     * returns whether or not it was successful.
+     */
     #placeShipHorizontally(startCoordinates, endCoordinates) {
         let [row, col1] = startCoordinates;
         let col2 = endCoordinates[1];
+
         /**
          * Ensure col1 <= col2 since we are incrementing from col1 to col2 in
          * the for loop below to place the ship.
@@ -46,6 +50,7 @@ class Gameboard {
         if (col1 > col2) {
             [col1, col2] = [col2, col1];
         }
+
         const ship = new Ship(col2 - col1 + 1);
         this.#ships.push(ship);
         for (let j = col1; j <= col2; j++) {
@@ -61,10 +66,14 @@ class Gameboard {
         return true;
     }
 
-    // Helper method for placeShip, returns whether or not ship placement was successful
+    /**
+     * Helper method for placeShip, attempts to place ship vertically and
+     * returns whether or not it was successful.
+     */
     #placeShipVertically(startCoordinates, endCoordinates) {
         let [row1, col] = startCoordinates;
         let row2 = endCoordinates[0];
+
         /**
          * Ensure row1 <= row2 since we are incrementing from row1 to row2 in
          * the for loop below to place the ship.
@@ -72,6 +81,7 @@ class Gameboard {
         if (row1 > row2) {
             [row1, row2] = [row2, row1];
         }
+
         const ship = new Ship(row2 - row1 + 1);
         this.#ships.push(ship);
         for (let i = row1; i <= row2; i++) {
@@ -87,7 +97,7 @@ class Gameboard {
         return true;
     }
 
-    // Returns whether or not ship placement was successful
+    // Attempts to place ship and returns whether or not it was successful
     placeShip(startCoordinates, endCoordinates) {
         if (
             !this.#isOnBoard(startCoordinates) ||
@@ -107,12 +117,16 @@ class Gameboard {
         return false;
     }
 
-    // Returns whether or not attacked was received successfully
+    /**
+     * Receives attack at coordinates and returns whether or not those
+     * coordinates have been attacked previously.
+     */
     receiveAttack(coordinates) {
         if (!this.#isOnBoard(coordinates)) {
             throw new Error('Attack coordinates out of bounds!');
         }
 
+        // Returns false if coordinates have previously been attacked
         if (
             this.#hits.has(JSON.stringify(coordinates)) ||
             this.#misses.has(JSON.stringify(coordinates))
