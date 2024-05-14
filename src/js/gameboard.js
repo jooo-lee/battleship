@@ -35,10 +35,73 @@ class Gameboard {
         );
     }
 
-    /**
-     * Helper method for placeShip, attempts to place ship horizontally and
-     * returns whether or not it was successful.
-     */
+    #isValidShipPlacement(startCoordinates, endCoordinates) {
+        // Ensure coordinates are on the board
+        if (
+            !this.#isOnBoard(startCoordinates) ||
+            !this.#isOnBoard(endCoordinates)
+        ) {
+            return false;
+        }
+
+        // Prevent diagonal ship placement
+        if (
+            startCoordinates[0] !== endCoordinates[0] &&
+            startCoordinates[1] !== endCoordinates[1]
+        ) {
+            throw new Error('Ship cannot be placed diagonally!');
+        }
+
+        /**
+         * Ensure coordinates from startCoordinates to endCoordinates (inclusive)
+         * are not already occupied by another ship.
+         */
+        if (startCoordinates[0] === endCoordinates[0]) {
+            let [row, col1] = startCoordinates;
+            let col2 = endCoordinates[1];
+
+            /**
+             * Ensure col1 <= col2 since we are incrementing from col1 to col2 in
+             * the for loop below.
+             */
+            if (col1 > col2) {
+                [col1, col2] = [col2, col1];
+            }
+
+            // Traverse horizontally
+            for (let j = col1; j <= col2; j++) {
+                if (this.#board[row][j]) {
+                    // Coordinates already occupied
+                    return false;
+                }
+            }
+
+            return true;
+        } else {
+            let [row1, col] = startCoordinates;
+            let row2 = endCoordinates[0];
+
+            /**
+             * Ensure row1 <= row2 since we are incrementing from row1 to row2 in
+             * the for loop below.
+             */
+            if (row1 > row2) {
+                [row1, row2] = [row2, row1];
+            }
+
+            // Traverse vertically
+            for (let i = row1; i <= row2; i++) {
+                if (this.#board[i][col]) {
+                    // Coordinates already occupied
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    }
+
+    // Places ship horizontally
     #placeShipHorizontally(startCoordinates, endCoordinates) {
         let [row, col1] = startCoordinates;
         let col2 = endCoordinates[1];
@@ -54,22 +117,11 @@ class Gameboard {
         const ship = new Ship(col2 - col1 + 1);
         this.#ships.push(ship);
         for (let j = col1; j <= col2; j++) {
-            // Undo new ship placement if we reach occupied coordinates
-            if (this.#board[row][j]) {
-                for (j = j - 1; j >= col1; j--) {
-                    this.#board[row][j] = null;
-                }
-                return false;
-            }
             this.#board[row][j] = ship;
         }
-        return true;
     }
 
-    /**
-     * Helper method for placeShip, attempts to place ship vertically and
-     * returns whether or not it was successful.
-     */
+    // Places ship vertically
     #placeShipVertically(startCoordinates, endCoordinates) {
         let [row1, col] = startCoordinates;
         let row2 = endCoordinates[0];
@@ -85,36 +137,18 @@ class Gameboard {
         const ship = new Ship(row2 - row1 + 1);
         this.#ships.push(ship);
         for (let i = row1; i <= row2; i++) {
-            // Undo new ship placement if we reach occupied coordinates
-            if (this.#board[i][col]) {
-                for (i = i - 1; i >= row1; i--) {
-                    this.#board[i][col] = null;
-                }
-                return false;
-            }
             this.#board[i][col] = ship;
         }
-        return true;
     }
 
-    // Attempts to place ship and returns whether or not it was successful
+    // Places ship at specified coordinates if possible
     placeShip(startCoordinates, endCoordinates) {
-        if (
-            !this.#isOnBoard(startCoordinates) ||
-            !this.#isOnBoard(endCoordinates)
-        ) {
-            return false;
-        }
-
-        if (startCoordinates[0] === endCoordinates[0]) {
-            return this.#placeShipHorizontally(
-                startCoordinates,
-                endCoordinates
-            );
-        } else if (startCoordinates[1] === endCoordinates[1]) {
-            return this.#placeShipVertically(startCoordinates, endCoordinates);
-        } else {
-            throw new Error('Ship cannot be placed diagonally!');
+        if (this.#isValidShipPlacement(startCoordinates, endCoordinates)) {
+            if (startCoordinates[0] === endCoordinates[0]) {
+                this.#placeShipHorizontally(startCoordinates, endCoordinates);
+            } else {
+                this.#placeShipVertically(startCoordinates, endCoordinates);
+            }
         }
     }
 
