@@ -185,4 +185,13 @@ describe('gameboard class', () => {
             gameboard.receiveAttack([10, 4]);
         }).toThrow();
     });
+
+    test('prevents hit at same spot more than once', () => {
+        gameboard.placeShip([1, 1], [1, 2]);
+        gameboard.receiveAttack([1, 1]);
+        gameboard.receiveAttack([1, 1]);
+        const board = gameboard.getBoard();
+        const ship = board[1][1];
+        expect(ship.hits).toBe(1);
+    });
 });

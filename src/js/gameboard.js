@@ -8,6 +8,7 @@ class Gameboard {
         // 10x10 grid
         this.#board = [...Array(10)].map(() => Array(10).fill(null));
         this.#ships = [];
+        this.hits = new Set();
         this.misses = new Set();
         this.allShipsSunk = false;
     }
@@ -98,21 +99,33 @@ class Gameboard {
         return false;
     }
 
+    // Returns whether or not attacked was received successfully
     receiveAttack(coordinates) {
         if (!this.#isOnBoard(coordinates)) {
             throw new Error('Attack coordinates out of bounds!');
         }
 
+        if (
+            this.hits.has(JSON.stringify(coordinates)) ||
+            this.misses.has(JSON.stringify(coordinates))
+        ) {
+            return false;
+        }
+
         const [row, col] = coordinates;
         if (this.#board[row][col]) {
+            // Ship present at coordinates
             const ship = this.#board[row][col];
             ship.hit();
+            this.hits.add(JSON.stringify(coordinates));
 
             // Update whether or not all ships have been sunk
             this.allShipsSunk = this.#ships.every((ship) => ship.isSunk());
         } else {
-            this.misses.add(coordinates);
+            // Ship not present at coordinates
+            this.misses.add(JSON.stringify(coordinates));
         }
+        return true;
     }
 }
 
