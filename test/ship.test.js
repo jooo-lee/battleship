@@ -1,7 +1,7 @@
 import { describe, expect, test } from '@jest/globals';
 import Ship from '../src/js/ship';
 
-describe('ship class', () => {
+describe('ship length', () => {
     test('has correct length', () => {
         expect(new Ship(4)).toHaveProperty('length', 4);
         expect(new Ship(2)).toHaveProperty('length', 2);
@@ -33,7 +33,9 @@ describe('ship class', () => {
             new Ship(7);
         }).toThrow();
     });
+});
 
+describe('receiving hits', () => {
     test('keeps track of number of times hit', () => {
         const ship = new Ship(4);
         expect(ship).toHaveProperty('hits', 0);

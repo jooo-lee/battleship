@@ -2,12 +2,12 @@ import { describe, expect, test, beforeEach } from '@jest/globals';
 import Gameboard from '../src/js/gameboard';
 import Ship from '../src/js/ship';
 
-describe('gameboard class', () => {
-    let gameboard;
-    beforeEach(() => {
-        gameboard = new Gameboard();
-    });
+let gameboard;
+beforeEach(() => {
+    gameboard = new Gameboard();
+});
 
+describe('placing ship', () => {
     test('placeShip creates ship of correct length', () => {
         gameboard.placeShip([1, 1], [1, 4]);
         gameboard.placeShip([6, 3], [4, 3]);
@@ -128,7 +128,9 @@ describe('gameboard class', () => {
         const newBoard = gameboard.board;
         expect(oldBoard).toEqual(newBoard);
     });
+});
 
+describe('receiving attacks', () => {
     test('correct ship is hit when receiving attack', () => {
         gameboard.placeShip([2, 3], [2, 5]);
         gameboard.placeShip([0, 1], [2, 1]);
