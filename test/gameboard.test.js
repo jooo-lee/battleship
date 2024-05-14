@@ -176,4 +176,13 @@ describe('gameboard class', () => {
         gameboard.receiveAttack([3, 4]);
         expect(gameboard.allShipsSunk).toBe(true);
     });
+
+    test('throws if receiving attack off the board', () => {
+        expect(() => {
+            gameboard.receiveAttack([-1, -1]);
+        }).toThrow();
+        expect(() => {
+            gameboard.receiveAttack([10, 4]);
+        }).toThrow();
+    });
 });

@@ -99,6 +99,10 @@ class Gameboard {
     }
 
     receiveAttack(coordinates) {
+        if (!this.#isOnBoard(coordinates)) {
+            throw new Error('Attack coordinates out of bounds!');
+        }
+
         const [row, col] = coordinates;
         if (this.#board[row][col]) {
             const ship = this.#board[row][col];
