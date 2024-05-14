@@ -156,11 +156,7 @@ describe('gameboard class', () => {
             [4, 3],
         ];
         expectedMisses.forEach((shot) => gameboard.receiveAttack(shot));
-
-        // Ensure we are comparing arrays
-        const misses = [...gameboard.misses];
-        expect(misses).toEqual(expectedMisses);
-        expect(misses.length).toBe(expectedMisses.length);
+        expect(gameboard.getMisses()).toEqual(expectedMisses);
     });
 
     test('reports whether or not all of its ships have been sunk', () => {
