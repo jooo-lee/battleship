@@ -14,6 +14,7 @@ const renderBoard = (container, board, isEnemy, sqClickCb = null) => {
             }
             if (isEnemy) {
                 square.addEventListener('click', sqClickCb);
+                square.classList.add('enemy-square');
             }
             container.appendChild(square);
         }

@@ -6,36 +6,84 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    font-family: system-ui, Helvetica, Arial, sans-serif;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+.container {
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 4rem 2rem 2rem 2rem;
+}
+
+main {
+    margin-top: 4rem;
+}
+
+/* ------------------------- Title ------------------------- */
+
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
 }
 
 /* ------------------------- Player boards ------------------------- */
 
+.player-name {
+    font-size: 1.2rem;
+}
+
+.board-and-player {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
 #boards-container {
     display: flex;
     flex-direction: row;
-    gap: 20px;
+    justify-content: center;
+    gap: 5rem;
 }
 
 .board {
-    border: 1px solid black;
     display: grid;
     grid-template-columns: repeat(10, var(--square-size));
 }
 
 .square {
-    border: 1px solid black;
+    border: 1px solid white;
+    background-color: rgb(200, 200, 200);
+    border-radius: 4px;
     width: var(--square-size);
     height: var(--square-size);
 }
 
+.enemy-square:hover {
+    cursor: pointer;
+    filter: brightness(80%);
+}
+
 .ship {
-    background-color: grey;
+    background-color: rgb(100, 100, 100);
 }
 
 .miss {
-    background-color: black;
+    background-color: rgb(84, 169, 214);
 }
 
 .hit {
     background-color: red;
+}
+
+/* ------------------------- Footer ------------------------- */
+
+#author {
+    text-align: center;
 }
