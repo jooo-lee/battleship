@@ -7,6 +7,13 @@ const playerOneGameboard = playerOne.gameboard;
 const playerTwo = new Player('computer');
 const playerTwoGameboard = playerTwo.gameboard;
 
+const players = [playerOne, playerTwo];
+let activePlayer = players[0];
+
+const switchTurns = () => {
+    activePlayer = activePlayer === players[0] ? players[1] : players[0];
+};
+
 const playerOneWon = () => {
     return playerTwoGameboard.allShipsSunk;
 };
@@ -16,6 +23,10 @@ const playerTwoWon = () => {
 };
 
 const takeTurn = (e) => {
+    if (activePlayer !== players[0]) {
+        return;
+    }
+
     // Player one's turn
     const row = e.target.dataset.row;
     const col = e.target.dataset.column;
@@ -34,6 +45,7 @@ const takeTurn = (e) => {
     } else {
         return;
     }
+    switchTurns();
 
     // Player two's turn
     setTimeout(() => {
@@ -60,6 +72,7 @@ const takeTurn = (e) => {
         } else {
             markMiss(attackedSquare);
         }
+        switchTurns();
     }, 1000);
 };
 
