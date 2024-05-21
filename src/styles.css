@@ -87,3 +87,40 @@ h1 {
 #author {
     text-align: center;
 }
+
+/* ------------------------- Game over modal ------------------------- */
+
+#game-over-modal[open] {
+    border: 2px solid black;
+    border-radius: 4px;
+    padding: 2rem 4rem;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+#game-over-modal::backdrop {
+    backdrop-filter: blur(1px);
+    -webkit-backdrop-filter: blur(1px);
+}
+
+#winner {
+    font-size: 2rem;
+    text-align: center;
+}
+
+#play-again-btn {
+    font-size: 1rem;
+    width: fit-content;
+    padding: 0.5rem 1rem;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 4px;
+}
+
+#play-again-btn:hover {
+    filter: brightness(90%);
+    cursor: pointer;
+}

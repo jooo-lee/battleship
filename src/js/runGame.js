@@ -1,4 +1,4 @@
-import { renderBoard, markMiss, markHit } from './dom';
+import { renderBoard, markMiss, markHit, displayGameOver } from './dom';
 import Player from './player';
 
 const playerOne = new Player('human');
@@ -7,15 +7,12 @@ const playerOneGameboard = playerOne.gameboard;
 const playerTwo = new Player('computer');
 const playerTwoGameboard = playerTwo.gameboard;
 
-// TODO
-const checkGameOver = () => {
-    if (playerOneGameboard.allShipsSunk) {
-        console.log('p2 wins!');
-        // Stop game from continuing
-    } else if (playerTwoGameboard.allShipsSunk) {
-        console.log('p1 wins!');
-        // Stop game from continuing
-    }
+const playerOneWon = () => {
+    return playerTwoGameboard.allShipsSunk;
+};
+
+const playerTwoWon = () => {
+    return playerOneGameboard.allShipsSunk;
 };
 
 const takeTurn = (e) => {
@@ -26,7 +23,11 @@ const takeTurn = (e) => {
         if (playerTwoGameboard.board[row][col]) {
             // Ship present at [row, col]
             markHit(e.target);
-            checkGameOver();
+
+            if (playerOneWon()) {
+                displayGameOver('You win!');
+                return;
+            }
         } else {
             markMiss(e.target);
         }
@@ -51,7 +52,11 @@ const takeTurn = (e) => {
         if (playerOneGameboard.board[randomRow][randomCol]) {
             // Ship present at [randomRow, randomCol]
             markHit(attackedSquare);
-            checkGameOver();
+
+            if (playerTwoWon()) {
+                displayGameOver('Computer wins!');
+                return;
+            }
         } else {
             markMiss(attackedSquare);
         }

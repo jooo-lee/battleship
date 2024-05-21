@@ -29,4 +29,12 @@ const markHit = (square) => {
     square.classList.add('hit');
 };
 
-export { renderBoard, markMiss, markHit };
+const displayGameOver = (message) => {
+    document.querySelector('#game-over-modal').showModal();
+    document.querySelector('#winner').textContent = `${message}`;
+    document
+        .querySelector('#play-again-btn')
+        .addEventListener('click', () => window.location.reload());
+};
+
+export { renderBoard, markMiss, markHit, displayGameOver };
