@@ -1,14 +1,14 @@
-const renderBoard = (container, board, isEnemy, sqClickCb = null) => {
+const renderBoard = (container, gameboard, isEnemy, sqClickCb = null) => {
     if (isEnemy && !sqClickCb) {
         throw new Error('Callback not provided for enemy board!');
     }
-    for (let i = 0; i < board.length; i++) {
-        for (let j = 0; j < board[0].length; j++) {
+    for (let i = 0; i < gameboard.length; i++) {
+        for (let j = 0; j < gameboard.length; j++) {
             const square = document.createElement('div');
             square.classList.add('square');
             square.dataset.row = i;
             square.dataset.column = j;
-            if (!isEnemy && board[i][j]) {
+            if (!isEnemy && gameboard.hasShipAt([i, j])) {
                 // Make ship visible in DOM
                 square.classList.add('ship');
             }

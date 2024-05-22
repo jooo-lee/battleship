@@ -7,15 +7,40 @@ beforeEach(() => {
     gameboard = new Gameboard();
 });
 
+describe('retrieving ship', () => {
+    test('hasShipAt correctly reports if a ship is present or not', () => {
+        expect(gameboard.hasShipAt([0, 0], [0, 2])).toBe(false);
+        expect(gameboard.hasShipAt([0, 1])).toBe(false);
+        expect(gameboard.hasShipAt([0, 2])).toBe(false);
+        gameboard.placeShip([0, 0], [0, 2]);
+        expect(gameboard.hasShipAt([0, 0])).toBe(true);
+        expect(gameboard.hasShipAt([0, 1])).toBe(true);
+        expect(gameboard.hasShipAt([0, 2])).toBe(true);
+    });
+
+    test('getShipAt returns the correct ship', () => {
+        gameboard.placeShip([4, 2], [4, 5]);
+        expect(gameboard.hasShipAt([4, 2])).toBe(true);
+        expect(gameboard.getShipAt([4, 2])).toEqual(
+            gameboard.getShipAt([4, 5])
+        );
+    });
+
+    test('getShipAt throws if no ship at given coordinates', () => {
+        expect(() => {
+            gameboard.getShipAt([0, 0]);
+        }).toThrow();
+    });
+});
+
 describe('placing ship', () => {
     test('placeShip creates ship of correct length', () => {
         gameboard.placeShip([1, 1], [1, 4]);
         gameboard.placeShip([6, 3], [4, 3]);
         gameboard.placeShip([0, 0], [0, 1]);
-        const board = gameboard.board;
-        expect(board[1][1].length).toBe(4);
-        expect(board[6][3].length).toBe(3);
-        expect(board[0][0].length).toBe(2);
+        expect(gameboard.getShipAt([1, 1]).length).toBe(4);
+        expect(gameboard.getShipAt([6, 3]).length).toBe(3);
+        expect(gameboard.getShipAt([0, 0]).length).toBe(2);
     });
 
     test('places ship horizontally left to right', () => {
@@ -24,16 +49,15 @@ describe('placing ship', () => {
         const row2 = 2;
         const col2 = 5;
         gameboard.placeShip([row1, col1], [row2, col2]);
-        const board = gameboard.board;
 
         // Assert that ship is only placed at its respective coordinates
-        expect(board[row1][col1]).toBeInstanceOf(Ship);
-        for (let i = 0; i < board.length; i++) {
-            for (let j = 0; j < board[0].length; j++) {
+        expect(gameboard.getShipAt([row1, col1])).toBeInstanceOf(Ship);
+        for (let i = 0; i < gameboard.length; i++) {
+            for (let j = 0; j < gameboard.length; j++) {
                 if (i === row1 && col1 <= j && j <= col2) {
-                    expect(board[row1][col1]).toBe(board[i][j]);
+                    expect(gameboard.hasShipAt([i, j])).toBe(true);
                 } else {
-                    expect(board[row1][col1]).not.toBe(board[i][j]);
+                    expect(gameboard.hasShipAt([i, j])).toBe(false);
                 }
             }
         }
@@ -45,16 +69,15 @@ describe('placing ship', () => {
         const row2 = 8;
         const col2 = 7;
         gameboard.placeShip([row1, col1], [row2, col2]);
-        const board = gameboard.board;
 
         // Assert that ship is only placed at its respective coordinates
-        expect(board[row1][col1]).toBeInstanceOf(Ship);
-        for (let i = 0; i < board.length; i++) {
-            for (let j = 0; j < board[0].length; j++) {
+        expect(gameboard.getShipAt([row1, col1])).toBeInstanceOf(Ship);
+        for (let i = 0; i < gameboard.length; i++) {
+            for (let j = 0; j < gameboard.length; j++) {
                 if (i === row1 && col2 <= j && j <= col1) {
-                    expect(board[row1][col1]).toBe(board[i][j]);
+                    expect(gameboard.hasShipAt([i, j])).toBe(true);
                 } else {
-                    expect(board[row1][col1]).not.toBe(board[i][j]);
+                    expect(gameboard.hasShipAt([i, j])).toBe(false);
                 }
             }
         }
@@ -66,16 +89,15 @@ describe('placing ship', () => {
         const row2 = 8;
         const col2 = 5;
         gameboard.placeShip([row1, col1], [row2, col2]);
-        const board = gameboard.board;
 
         // Assert that ship is only placed at its respective coordinates
-        expect(board[row1][col1]).toBeInstanceOf(Ship);
-        for (let i = 0; i < board.length; i++) {
-            for (let j = 0; j < board[0].length; j++) {
+        expect(gameboard.getShipAt([row1, col1])).toBeInstanceOf(Ship);
+        for (let i = 0; i < gameboard.length; i++) {
+            for (let j = 0; j < gameboard.length; j++) {
                 if (j === col1 && row1 <= i && i <= row2) {
-                    expect(board[row1][col1]).toBe(board[i][j]);
+                    expect(gameboard.hasShipAt([i, j])).toBe(true);
                 } else {
-                    expect(board[row1][col1]).not.toBe(board[i][j]);
+                    expect(gameboard.hasShipAt([i, j])).toBe(false);
                 }
             }
         }
@@ -87,16 +109,15 @@ describe('placing ship', () => {
         const row2 = 1;
         const col2 = 9;
         gameboard.placeShip([row1, col1], [row2, col2]);
-        const board = gameboard.board;
 
         // Assert that ship is only placed at its respective coordinates
-        expect(board[row1][col1]).toBeInstanceOf(Ship);
-        for (let i = 0; i < board.length; i++) {
-            for (let j = 0; j < board[0].length; j++) {
+        expect(gameboard.getShipAt([row1, col1])).toBeInstanceOf(Ship);
+        for (let i = 0; i < gameboard.length; i++) {
+            for (let j = 0; j < gameboard.length; j++) {
                 if (j === col1 && row2 <= i && i <= row1) {
-                    expect(board[row1][col1]).toBe(board[i][j]);
+                    expect(gameboard.hasShipAt([i, j])).toBe(true);
                 } else {
-                    expect(board[row1][col1]).not.toBe(board[i][j]);
+                    expect(gameboard.hasShipAt([i, j])).toBe(false);
                 }
             }
         }
@@ -109,24 +130,24 @@ describe('placing ship', () => {
     });
 
     test('does not place ship off the board', () => {
-        const oldBoard = gameboard.board;
+        const oldShips = gameboard.ships;
         gameboard.placeShip([-1, 1], [2, 1]);
         gameboard.placeShip([0, -3], [0, 1]);
         gameboard.placeShip([9, 9], [11, 9]);
         gameboard.placeShip([2, 8], [2, 10]);
-        const newBoard = gameboard.board;
-        expect(oldBoard).toEqual(newBoard);
+        const newShips = gameboard.ships;
+        expect(oldShips).toEqual(newShips);
     });
 
     test('does not place ship on occupied coordinates', () => {
         gameboard.placeShip([1, 1], [1, 4]);
-        const oldBoard = gameboard.board;
+        const oldShips = gameboard.ships;
 
         // Attempt to place ship on occupied coordinates
         gameboard.placeShip([0, 1], [2, 1]);
 
-        const newBoard = gameboard.board;
-        expect(oldBoard).toEqual(newBoard);
+        const newShips = gameboard.ships;
+        expect(oldShips).toEqual(newShips);
     });
 });
 
@@ -134,15 +155,14 @@ describe('receiving attacks', () => {
     test('correct ship is hit when receiving attack', () => {
         gameboard.placeShip([2, 3], [2, 5]);
         gameboard.placeShip([0, 1], [2, 1]);
-        const board = gameboard.board;
 
-        const shipToBeHit = board[2][3];
+        const shipToBeHit = gameboard.getShipAt([2, 3]);
         expect(shipToBeHit.hits).toBe(0);
         gameboard.receiveAttack([2, 3]);
         gameboard.receiveAttack([2, 4]);
         expect(shipToBeHit.hits).toBe(2);
 
-        const shipToNotBeHit = board[0][1];
+        const shipToNotBeHit = gameboard.getShipAt([0, 1]);
         expect(shipToNotBeHit.hits).toBe(0);
     });
 
@@ -183,8 +203,7 @@ describe('receiving attacks', () => {
         gameboard.placeShip([1, 1], [1, 2]);
         gameboard.receiveAttack([1, 1]);
         gameboard.receiveAttack([1, 1]);
-        const board = gameboard.board;
-        const ship = board[1][1];
+        const ship = gameboard.getShipAt([1, 1]);
         expect(ship.hits).toBe(1);
     });
 });

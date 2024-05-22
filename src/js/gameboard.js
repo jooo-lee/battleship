@@ -2,23 +2,29 @@ import Ship from './ship';
 
 class Gameboard {
     #board;
+    #length;
     #ships;
     #hits;
     #misses;
     #allShipsSunk;
 
     constructor() {
-        // 10x10 grid
-        this.#board = [...Array(10)].map(() => Array(10).fill(null));
-
+        this.#length = 10;
+        this.#board = [...Array(this.#length)].map(() =>
+            Array(this.#length).fill(null)
+        );
         this.#ships = [];
         this.#hits = new Set();
         this.#misses = new Set();
         this.#allShipsSunk = false;
     }
 
-    get board() {
-        return this.#board;
+    get length() {
+        return this.#length;
+    }
+
+    get ships() {
+        return this.#ships;
     }
 
     // Returns array of received missed attack coordinates
@@ -38,6 +44,19 @@ class Gameboard {
             col >= 0 &&
             col < this.#board.length
         );
+    }
+
+    hasShipAt(coordinates) {
+        const [row, col] = coordinates;
+        return !!this.#board[row][col];
+    }
+
+    getShipAt(coordinates) {
+        if (!this.hasShipAt(coordinates)) {
+            throw new Error('No ship at given coordinates!');
+        }
+        const [row, col] = coordinates;
+        return this.#board[row][col];
     }
 
     #isValidShipPlacement(startCoordinates, endCoordinates) {
@@ -75,7 +94,7 @@ class Gameboard {
 
             // Traverse horizontally
             for (let j = col1; j <= col2; j++) {
-                if (this.#board[row][j]) {
+                if (this.hasShipAt([row, j])) {
                     // Coordinates already occupied
                     return false;
                 }
@@ -96,7 +115,7 @@ class Gameboard {
 
             // Traverse vertically
             for (let i = row1; i <= row2; i++) {
-                if (this.#board[i][col]) {
+                if (this.hasShipAt([i, col])) {
                     // Coordinates already occupied
                     return false;
                 }
@@ -174,10 +193,9 @@ class Gameboard {
             return false;
         }
 
-        const [row, col] = coordinates;
-        if (this.#board[row][col]) {
+        if (this.hasShipAt(coordinates)) {
             // Ship present at coordinates
-            const ship = this.#board[row][col];
+            const ship = this.getShipAt(coordinates);
             ship.hit();
             this.#hits.add(JSON.stringify(coordinates));
 
