@@ -1,4 +1,10 @@
-import { renderBoard, markMiss, markHit, displayGameOver } from './dom';
+import {
+    renderBoard,
+    markMiss,
+    markHit,
+    activateRandomizeShips,
+    displayGameOver,
+} from './dom';
 import Player from './player';
 
 const playerOne = new Player('human');
@@ -22,16 +28,21 @@ const playerTwoWon = () => {
     return playerOneGameboard.allShipsSunk;
 };
 
+const getRandomCoordinates = () => {
+    const randomRow = Math.floor(Math.random() * 10);
+    const randomCol = Math.floor(Math.random() * 10);
+    return [randomRow, randomCol];
+};
+
 const takeTurn = (e) => {
     if (activePlayer !== players[0]) {
         return;
     }
 
     // Player one's turn
-    const row = e.target.dataset.row;
-    const col = e.target.dataset.column;
-    if (playerTwoGameboard.receiveAttack([row, col])) {
-        if (playerTwoGameboard.hasShipAt([row, col])) {
+    const attackedCoordinates = [e.target.dataset.row, e.target.dataset.column];
+    if (playerTwoGameboard.receiveAttack(attackedCoordinates)) {
+        if (playerTwoGameboard.hasShipAt(attackedCoordinates)) {
             markHit(e.target);
             if (playerOneWon()) {
                 displayGameOver('You win!');
@@ -47,19 +58,18 @@ const takeTurn = (e) => {
 
     // Player two's turn
     setTimeout(() => {
-        let randomRow = Math.floor(Math.random() * 10);
-        let randomCol = Math.floor(Math.random() * 10);
+        let randomCoordinates = getRandomCoordinates();
 
-        while (!playerOneGameboard.receiveAttack([randomRow, randomCol])) {
-            randomRow = Math.floor(Math.random() * 10);
-            randomCol = Math.floor(Math.random() * 10);
+        while (!playerOneGameboard.receiveAttack(randomCoordinates)) {
+            randomCoordinates = getRandomCoordinates();
         }
 
+        const [chosenRow, chosenCol] = randomCoordinates;
         const attackedSquare = document.querySelector(
-            `#player-one-board > .square:nth-child(${randomRow * 10 + randomCol + 1})`
+            `#player-one-board > .square:nth-child(${chosenRow * 10 + chosenCol + 1})`
         );
 
-        if (playerOneGameboard.hasShipAt([randomRow, randomCol])) {
+        if (playerOneGameboard.hasShipAt(randomCoordinates)) {
             markHit(attackedSquare);
             if (playerTwoWon()) {
                 displayGameOver('Computer wins!');
@@ -69,32 +79,29 @@ const takeTurn = (e) => {
             markMiss(attackedSquare);
         }
         switchTurns();
-    }, 1000);
+    }, 500);
 };
 
-const runGame = () => {
-    playerOneGameboard.placeShip([0, 0], [0, 4]);
-    playerOneGameboard.placeShip([1, 5], [2, 5]);
-    playerOneGameboard.placeShip([4, 7], [7, 7]);
-    playerOneGameboard.placeShip([8, 1], [8, 3]);
-    playerOneGameboard.placeShip([9, 5], [9, 7]);
+const randomizeShips = () => {
+    playerOneGameboard.randomizeShips();
+    playerTwoGameboard.randomizeShips();
+
     renderBoard(
         document.querySelector('#player-one-board'),
         playerOneGameboard,
         false
     );
-
-    playerTwoGameboard.placeShip([4, 1], [4, 5]);
-    playerTwoGameboard.placeShip([1, 8], [1, 9]);
-    playerTwoGameboard.placeShip([4, 9], [7, 9]);
-    playerTwoGameboard.placeShip([6, 4], [8, 4]);
-    playerTwoGameboard.placeShip([6, 6], [8, 6]);
     renderBoard(
         document.querySelector('#player-two-board'),
         playerTwoGameboard,
         true,
         takeTurn
     );
+};
+
+const runGame = () => {
+    activateRandomizeShips(randomizeShips);
+    randomizeShips();
 };
 
 export default runGame;

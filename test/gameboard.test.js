@@ -149,6 +149,11 @@ describe('placing ship', () => {
         const newShips = gameboard.ships;
         expect(oldShips).toEqual(newShips);
     });
+
+    test('can randomly place 5 ships', () => {
+        gameboard.randomizeShips();
+        expect(gameboard.ships.length).toBe(5);
+    });
 });
 
 describe('receiving attacks', () => {

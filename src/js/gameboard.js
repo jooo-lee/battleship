@@ -176,6 +176,58 @@ class Gameboard {
         }
     }
 
+    #placeShipRandomly(shipLength) {
+        if (typeof shipLength === 'undefined') {
+            throw new Error('Missing ship length!');
+        }
+        let isShipVertical = Math.random() < 0.5;
+        let rowStart = Math.floor(Math.random() * 10);
+        let colStart = Math.floor(Math.random() * 10);
+        let rowEnd;
+        let colEnd;
+        if (isShipVertical) {
+            rowEnd = rowStart + shipLength - 1;
+            colEnd = colStart;
+        } else {
+            rowEnd = rowStart;
+            colEnd = colStart + shipLength - 1;
+        }
+        while (
+            !this.#isValidShipPlacement([rowStart, colStart], [rowEnd, colEnd])
+        ) {
+            rowStart = Math.floor(Math.random() * 10);
+            colStart = Math.floor(Math.random() * 10);
+            if (isShipVertical) {
+                rowEnd = rowStart + shipLength - 1;
+                colEnd = colStart;
+            } else {
+                rowEnd = rowStart;
+                colEnd = colStart + shipLength - 1;
+            }
+        }
+        this.placeShip([rowStart, colStart], [rowEnd, colEnd]);
+    }
+
+    #reset() {
+        this.#length = 10;
+        this.#board = [...Array(this.#length)].map(() =>
+            Array(this.#length).fill(null)
+        );
+        this.#ships = [];
+        this.#hits = new Set();
+        this.#misses = new Set();
+        this.#allShipsSunk = false;
+    }
+
+    randomizeShips() {
+        this.#reset();
+        this.#placeShipRandomly(5);
+        this.#placeShipRandomly(4);
+        this.#placeShipRandomly(3);
+        this.#placeShipRandomly(3);
+        this.#placeShipRandomly(2);
+    }
+
     /**
      * Receives attack at coordinates and returns whether or not those
      * coordinates have been attacked previously.

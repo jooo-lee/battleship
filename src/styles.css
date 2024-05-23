@@ -18,11 +18,31 @@ body {
     height: 100%;
     display: grid;
     grid-template-rows: auto 1fr auto;
-    padding: 4rem 2rem 2rem 2rem;
+    padding: 3rem 2rem 2rem 2rem;
 }
 
 main {
-    margin-top: 4rem;
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+}
+
+/* ------------------------- Buttons ------------------------- */
+
+button {
+    font-size: 1rem;
+    width: fit-content;
+    padding: 0.5rem 1rem;
+    background-color: rgb(220, 220, 220);
+    border: 1px solid black;
+    border-radius: 4px;
+}
+
+button:hover {
+    filter: brightness(90%);
+    cursor: pointer;
 }
 
 /* ------------------------- Title ------------------------- */
@@ -109,18 +129,4 @@ h1 {
 #winner {
     font-size: 2rem;
     text-align: center;
-}
-
-#play-again-btn {
-    font-size: 1rem;
-    width: fit-content;
-    padding: 0.5rem 1rem;
-    background-color: white;
-    border: 1px solid black;
-    border-radius: 4px;
-}
-
-#play-again-btn:hover {
-    filter: brightness(90%);
-    cursor: pointer;
 }
