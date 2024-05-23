@@ -105,6 +105,7 @@ h1 {
 /* ------------------------- Footer ------------------------- */
 
 #author {
+    margin: 2rem 0rem;
     text-align: center;
 }
 
@@ -129,4 +130,23 @@ h1 {
 #winner {
     font-size: 2rem;
     text-align: center;
+}
+
+/* ------------------------- Screen size message ------------------------- */
+
+#screen-size-msg {
+    display: none;
+}
+
+@media only screen and (max-width: 1000px) {
+    .container {
+        display: none;
+    }
+
+    #screen-size-msg {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 }
