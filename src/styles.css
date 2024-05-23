@@ -40,11 +40,6 @@ button {
     border-radius: 4px;
 }
 
-button:hover {
-    filter: brightness(90%);
-    cursor: pointer;
-}
-
 /* ------------------------- Title ------------------------- */
 
 h1 {
@@ -83,11 +78,6 @@ h1 {
     border-radius: 4px;
     width: var(--square-size);
     height: var(--square-size);
-}
-
-.enemy-square:hover {
-    cursor: pointer;
-    filter: brightness(80%);
 }
 
 .ship {
@@ -148,5 +138,19 @@ h1 {
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+}
+
+/* ------------------------- Hover effects ------------------------- */
+
+@media (hover: hover) {
+    .enemy-square:hover {
+        cursor: pointer;
+        filter: brightness(80%);
+    }
+
+    button:hover {
+        filter: brightness(90%);
+        cursor: pointer;
     }
 }
