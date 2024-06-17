@@ -1,6 +1,6 @@
 # Battleship
 
-My implementation of the [Battleship project](https://www.theodinproject.com/lessons/node-path-javascript-battleship) from [The Odin Project](https://www.theodinproject.com/).
+My implementation of the [Battleship project](https://www.theodinproject.com/lessons/node-path-javascript-battleship) from [The Odin Project](https://www.theodinproject.com/). Take a look at the [live preview](https://jooo-lee.github.io/battleship/)!
 
 ## Description:
 
